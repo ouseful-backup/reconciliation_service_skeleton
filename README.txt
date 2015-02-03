@@ -1,36 +1,10 @@
-A skeleton for creating an OpenRefine reconciliation service.
+A skeleton for creating an OpenRefine reconciliation service via a docker container (originally based on [OpenRefine/reconciliation_service_skeleton](https://github.com/OpenRefine/reconciliation_service_skeleton) and also drawing inspiration from [OpenRefine Style Reconciliation Containers](http://blog.ouseful.info/2015/02/02/openrefine-style-reconciliation-containers/)
 
-This repository is intended to be a basic template for a Refine reconciliation service.  It is expected that you would modify the included code for your own purposes.
+To run the container using a CSV based reconciliation file `/path/to/myfile.csv', with column name *Searchval* for the column to fuzzily match against and *Idval* as the *id* value:
 
-Requirements:
-1. Python
-2. virtualenv
+`docker run --name reconpy -p 5001:5000 -d -v /path/to:/tmp/import -e RECONFILE=myfile.csv -e SEARCHCOL=Searchval -e IDCOL=Idval psychemedia/recon-py`
 
-Instructions:
+If you are running in `boot2docker` find the IP address using `boot2docker ip` (eg *192.168.59.103*) and then preview the reconciliation service endpoint at `http://192.168.59.103:5001/reconcile`
 
-1. Download the files in this repository to a directory on your computer. 
+See [OpenRefine/reconciliation_service_skeleton](https://github.com/OpenRefine/reconciliation_service_skeleton) for additional ideas about how to further use the service, including constructing your own reconciliation servie containers.
 
-     $ git clone git://github.com/OpenRefine/reconciliation_service_skeleton.git my_recon_service
-     $ cd my_recon_service
-     
-2. Create a new virtual environment
-     $ virtualenv venv
-     
-3. Activate the newly created virtual environment
-
-     $ venv/bin/activate
-
-   or on Windows
-
-     $ venv\scripts\activate
-
-4. Install the dependencies
-
-     $ pip install Flask simplejson fuzzywuzzy
-     
-5. Run 'example_composers_reconciliation_service.py' e.g. 
-
-     $ cd my_recon_service
-     $ python example_composers_reconciliation_service.py'.
-
-   This will start a reconciliation service on port 5000 which you can use with Refine by using the URL http://127.0.0.1:5000/reconcile

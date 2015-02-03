@@ -2,8 +2,11 @@
 
 """
 An example reconciliation service API for Google Refine 2.0.
+
 See http://code.google.com/p/google-refine/wiki/ReconciliationServiceApi.
 """
+
+import os
 
 import csv
 from fuzzywuzzy import fuzz
@@ -13,7 +16,10 @@ import simplejson as json
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-
+RECONFILE='/tmp/import/'+os.getenv('RECONFILE', 'example_composers.csv')
+SEARCHCOL=os.getenv('SEARCHCOL','label')
+IDCOL=os.getenv('IDCOL','id')
+	
 # Matching threshold.
 match_threshold = 70
 
@@ -25,7 +31,7 @@ metadata = {
     }
 
 # Read in person records from csv file.
-reader = csv.DictReader(open('/tmp/import/example_composers.csv', 'rb'))
+reader = csv.DictReader(open(RECONFILE, 'rb'))
 records = [r for r in reader]
 
 
@@ -36,14 +42,14 @@ def search(query):
 
     # Search person records for matches.
     for r in records:
-        score = fuzz.token_set_ratio(query, r['label'])
+        score = fuzz.token_set_ratio(query, r[SEARCHCOL])
         
         if score > match_threshold:
             matches.append({
-                    "id": r['id'],
-                    "name": r['label'],
+                    "id": r[IDCOL],
+                    "name": r[SEARCHCOL],
                     "score": score,
-                    "match": query == r['label'],
+                    "match": query == r[SEARCHCOL],
                     "type": [{"id": "/people/person", "name": "Person"}]
                     })
     
@@ -73,7 +79,6 @@ def reconcile():
     	query = request.form.get('query')
     else:
     	query=request.args.get('query', '')
-    metadata['qq']=query
     if query:
         # If the 'query' param starts with a "{" then it is a JSON object
         # with the search string as the 'query' member. Otherwise,
@@ -100,4 +105,5 @@ def reconcile():
 
 if __name__ == '__main__':
     #print search("Doe, John")
+
     app.run(debug=True,host='0.0.0.0')
