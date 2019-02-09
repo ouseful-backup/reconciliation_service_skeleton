@@ -32,7 +32,7 @@ services:
     ports:
       - "8866:8888"
     volumes:
-      - .:/home/jovyan/work
+      - ./notebooks/:/home/jovyan/work
     networks:
       - refinet
     restart: unless-stopped
@@ -42,4 +42,5 @@ networks:
     driver: bridge
 
 volumes:
-  refine:
+  jupyter:
+  reconcile:

@@ -19,7 +19,7 @@ The `docker-compose` file creates a network between three containers:
 - Jupyter notebook
 - reconciler
 
-The demo notebook is not currently installed in the Jupyter notebook container - you'll have to upload it yourself or create a new one. The one in the repo shows how to connect (ports inside the docker-compose network are the internal ports, not port mapped ports).
+A demo notebook can be found in the running notebook server `work` directory. It shows how to connect (ports inside the docker-compose network are the internal ports, not port mapped ports).
 
 The Jupyter notebook can see the reconcile service but OpenRefine appears not to when I try to add it as a reconciliation service.
 
