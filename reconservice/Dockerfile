@@ -9,3 +9,4 @@ EXPOSE 8895
 
 CMD  jupyter kernelgateway --ip 0.0.0.0 --KernelGatewayApp.api='kernel_gateway.notebook_http' --KernelGatewayApp.seed_uri='/home/jovyan/work/Reconciler.ipynb' --port 8895
 
+#docker build -t psychemedia/jupyter-recon .
