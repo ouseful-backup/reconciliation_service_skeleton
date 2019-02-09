@@ -1,0 +1,3 @@
+# reconservice
+
+Simple docker container containing examples of how to run a JSON API using Jupyter kernel gateway service.
