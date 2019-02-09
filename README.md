@@ -13,7 +13,16 @@ For example:
 
 and try to reconcile on a name such as `Diana Abbot`.
 
-If you are running in `boot2docker` find the IP address using `boot2docker ip` (eg *192.168.59.103*) and then preview the reconciliation service endpoint at `http://192.168.59.103:5001/reconcile`
+The `docker-compose` file creates a network between three containers:
 
-See [OpenRefine/reconciliation_service_skeleton](https://github.com/OpenRefine/reconciliation_service_skeleton) for additional ideas about how to further use the service, including constructing your own reconciliation servie containers.
+- OpenRefine
+- Jupyter notebook
+- reconciler
+
+The demo notebook is not currently installed in the Jupyter notebook container - you'll have to upload it yourself or create a new one. The one in the repo shows how to connect (ports inside the docker-compose network are the internal ports, not port mapped ports).
+
+The Jupyter notebook can see the reconcile service but OpenRefine appears not to when I try to add it as a reconciliation service.
+
+
+See [OpenRefine/reconciliation_service_skeleton](https://github.com/OpenRefine/reconciliation_service_skeleton) for additional ideas about how to further use the service, including constructing your own reconciliation service containers.
 
