@@ -96,7 +96,7 @@ def reconcile():
     # If a 'queries' parameter is supplied then it is a dictionary
     # of (key, query) pairs representing a batch of queries. We
     # should return a dictionary of (key, results) pairs.
-    queries = request.form.get('queries')
+    queries = request.args.get('queries')
     if queries:
         queries = json.loads(queries)
         results = {}

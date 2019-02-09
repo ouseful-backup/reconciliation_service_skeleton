@@ -1,0 +1,45 @@
+#Based on: https://github.com/khezen/compose-postgres
+version: '3.5'
+
+services:
+  refine:
+    container_name: refine_container
+    image: psychemedia/openrefinedemo
+    ports:
+      - "3333:3333"
+    networks:
+      - refinet
+    restart: unless-stopped
+
+  reconcile:
+    container_name: reconcile_container
+    image: psychemedia/recon-py
+    environment:
+      IDCOL: Member_Id
+      SEARCHCOL: DisplayAs
+      RECONFILE: UK-MPs.csv
+    volumes:
+       - .:/tmp/import
+    networks:
+      - refinet
+    restart: unless-stopped
+
+  jupyter:
+    container_name: refine_jupyter_notebook_container
+    image: jupyter/minimal-notebook
+    environment:
+      JUPYTER_TOKEN: 'letmein'
+    ports:
+      - "8866:8888"
+    volumes:
+      - .:/home/jovyan/work
+    networks:
+      - refinet
+    restart: unless-stopped
+
+networks:
+  refinet:
+    driver: bridge
+
+volumes:
+  refine:
