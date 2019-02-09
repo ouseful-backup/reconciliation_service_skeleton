@@ -37,6 +37,17 @@ services:
       - refinet
     restart: unless-stopped
 
+  jupyterrecon:
+    container_name: refine_jupyter_recon
+    image: psychemedia/jupyter-recon
+    environment:
+      JUPYTER_TOKEN: 'letmein'
+    ports:
+      - "8895:8895"
+    networks:
+      - refinet
+    restart: unless-stopped
+
 networks:
   refinet:
     driver: bridge
