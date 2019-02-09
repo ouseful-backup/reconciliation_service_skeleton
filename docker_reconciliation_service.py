@@ -19,7 +19,7 @@ app = Flask(__name__)
 RECONFILE='/tmp/import/'+os.getenv('RECONFILE', 'example_composers.csv')
 SEARCHCOL=os.getenv('SEARCHCOL','label')
 IDCOL=os.getenv('IDCOL','id')
-	
+
 # Matching threshold.
 match_threshold = 70
 
@@ -27,6 +27,11 @@ match_threshold = 70
 # but this is all we need for a simple service.
 metadata = {
     "name": "Person Reconciliation Service",
+	 "identifierSpace": "http://rdf.freebase.com/ns/type.object.id",
+    "schemaSpace": "http://rdf.freebase.com/ns/type.object.id",
+    "view": {
+      "url": "http://127.0.0.1:8889{{id}}"
+    },
     "defaultTypes": [{"id": "/people/person", "name" : "Person"}]
     }
 
@@ -43,7 +48,7 @@ def search(query):
     # Search person records for matches.
     for r in records:
         score = fuzz.token_set_ratio(query, r[SEARCHCOL])
-        
+
         if score > match_threshold:
             matches.append({
                     "id": r[IDCOL],
@@ -52,7 +57,7 @@ def search(query):
                     "match": query == r[SEARCHCOL],
                     "type": [{"id": "/people/person", "name": "Person"}]
                     })
-    
+
     print >> sys.stderr, matches
     return matches
 
